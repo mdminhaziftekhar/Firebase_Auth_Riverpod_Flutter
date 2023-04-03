@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_diary/provider.dart';
 import 'package:my_diary/screens/home/home.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/auth_provider.dart';
+
 import '../../widgets/custom_button.dart';
 import '../register_screen/register_screen.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    //final ap = Provider.of<AuthProvider>(context, listen: false);
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final ap = ref.watch(userProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -55,7 +54,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: CustomButton(
                     onPressed: () async {
                       if (ap.isSignedIn == true) {
-                        await ap.getDataFromSP().whenComplete(
+                        //ap.getDataFromSP().
+                        await ref.read(userProvider.notifier).getDataFromSP().whenComplete(
                               () => Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

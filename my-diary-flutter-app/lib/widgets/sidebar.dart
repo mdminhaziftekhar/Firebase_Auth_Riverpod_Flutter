@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_diary/constants/color_constanst.dart';
+import 'package:my_diary/provider.dart';
 import 'package:my_diary/screens/ans_one/ans_one_screen.dart';
 import 'package:my_diary/screens/ans_two/ans_two_screen.dart';
 import 'package:my_diary/utils/utility.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/auth_provider.dart';
 import '../screens/welcome/welcome_screen.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ap = ref.watch(userProvider);
     return Drawer(
       backgroundColor: Colors.white,
       child: ListView(
@@ -68,7 +69,7 @@ class Sidebar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              ap.userSignOut().then(
+              ref.read(userProvider.notifier).userSignOut().then(
                     (value) => Navigator.push(
                       context,
                       MaterialPageRoute(

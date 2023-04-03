@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_diary/api/api.dart';
 import 'package:my_diary/api/app_provider_observer.dart';
-import 'package:my_diary/provider/auth_provider.dart';
 import 'package:my_diary/screens/home/home.dart';
 import 'package:my_diary/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart' as provider;
@@ -48,11 +47,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return provider.MultiProvider(
-      providers: [
-        provider.ChangeNotifierProvider(create: (_) => AuthProvider()),
-      ],
-      child: MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.system,
         theme: ThemeData(
@@ -69,7 +64,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: WelcomeScreen(),
-      ),
+      
     );
   }
 }

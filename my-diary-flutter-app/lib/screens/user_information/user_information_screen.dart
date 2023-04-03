@@ -1,22 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_diary/provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/user_model.dart';
-import '../../provider/auth_provider.dart';
+
 import '../../utils/utility.dart';
 import '../../widgets/custom_button.dart';
 import '../home/home.dart';
 
-class UserInfromationScreen extends StatefulWidget {
+class UserInfromationScreen extends ConsumerStatefulWidget {
   const UserInfromationScreen({super.key});
 
   @override
-  State<UserInfromationScreen> createState() => _UserInfromationScreenState();
+  _UserInfromationScreenState createState() => _UserInfromationScreenState();
 }
 
-class _UserInfromationScreenState extends State<UserInfromationScreen> {
+class _UserInfromationScreenState extends ConsumerState<UserInfromationScreen> {
   File? image;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -38,8 +40,9 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isLoading;
+    
+    final isLoading = ref.read(userProvider).isLoading;
+
     return Scaffold(
       body: SafeArea(
         child: isLoading == true
@@ -175,7 +178,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
 
   // store user data to database
   void storeData() async {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final ap = ref.watch(userProvider.notifier);
     UserModel userModel = UserModel(
       name: nameController.text.trim(),
       email: emailController.text.trim(),

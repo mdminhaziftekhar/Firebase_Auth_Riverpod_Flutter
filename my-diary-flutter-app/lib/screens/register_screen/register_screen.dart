@@ -1,19 +1,21 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_diary/provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/auth_provider.dart';
+
 import '../../widgets/custom_button.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -172,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void sendPhoneNumber() {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final ap = ref.watch(userProvider.notifier);
     String phoneNumber = phoneController.text.trim();
     ap.signInWithPhone(context, "+${selectedCountry.phoneCode}$phoneNumber");
   }

@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_diary/provider.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/auth_provider.dart';
+
 import '../../utils/utility.dart';
 import '../../widgets/custom_button.dart';
 import '../home/home.dart';
 import '../user_information/user_information_screen.dart';
 
-class OtpScreen extends StatefulWidget {
+class OtpScreen extends ConsumerStatefulWidget {
   final String verificationId;
   const OtpScreen({super.key, required this.verificationId});
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  _OtpScreenState createState() => _OtpScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpScreenState extends ConsumerState<OtpScreen> {
   String? otpCode;
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isLoading;
+    final isLoading = ref.read(userProvider).isLoading;
     return Scaffold(
       body: SafeArea(
         child: isLoading == true
@@ -139,9 +140,9 @@ class _OtpScreenState extends State<OtpScreen> {
     );
   }
 
- // verify otp
+  // verify otp
   void verifyOtp(BuildContext context, String userOtp) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final ap = ref.watch(userProvider.notifier);
     ap.verifyOtp(
       context: context,
       verificationId: widget.verificationId,

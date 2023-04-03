@@ -1,7 +1,3 @@
-"# jb_coder_task" 
-APk URL
-https://drive.google.com/file/d/1kW8VNHytnr2EEzOMA1u2hCxRGegDFvUv/view?usp=share_link
+# My Diary app
 
-For running backend '''main serve'''
-
-For the Diary App I am using pocketbase server
+This is a demo project. I implemented Firebase Phone auth in Flutter using Riverpod State management.
